@@ -1,0 +1,5 @@
+SECRET_ID = 'your secret id'
+SECRET_KEY = 'your secrete key'
+SSSERVER_PASSWORD = 'qq#baidu.com'
+REGION = 'hk'
+API_VERSION = '2017-03-20'
