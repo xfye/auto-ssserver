@@ -222,7 +222,8 @@ class SSServerInstance(object):
             raise QCloudException(1, response['Response']['Error']['Message'])
 
         if 'InstanceIdSet' in response['Response'] and response['Response']['InstanceIdSet']:
-            return response['Response']['InstanceSet'][0]
+            print(response)
+            return response['Response']['InstanceIdSet'][0]
         else:
             return None
 
