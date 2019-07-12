@@ -25,13 +25,18 @@ def retry(func):
     return wrapper
 
 def is_remote_tcp_port_alive(host, port):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(3)
         try:
             sock.connect((host, port))
             return True
         except Exception:
             return False
+    except Exception as ex:
+        raise ex
+    finally:
+        sock.close()
 
 class QCloudException(Exception):
     def __init__(self, code, message):
@@ -44,16 +49,16 @@ class QCloudException(Exception):
 @task
 def install_shadowsocks():
     run('sudo -u root apt-get update')
-    run('sudo -u root apt-get install -y python-pip')
-    run('sudo -u root pip install -U pip')
+    run('sudo -u root curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py')
+    run('sudo -u root python /tmp/get-pip.py')
     run('sudo -u root pip install shadowsocks')
 
 @task
 def start_ssserver():
     # Install
     run('sudo -u root apt-get update')
-    run('sudo -u root apt-get install -y python-pip')
-    run('sudo -u root pip install -U pip')
+    run('sudo -u root curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py')
+    run('sudo -u root python /tmp/get-pip.py')
     run('sudo -u root pip install shadowsocks')
 
     # Start
